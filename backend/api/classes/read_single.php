@@ -28,13 +28,13 @@ if ($id) {
             $templates = $templateStmt->fetchAll(PDO::FETCH_ASSOC);
 
             if ($templates) {
-                $allClassesStmt = $pdo->query("SELECT class_id, class_name FROM classes");
+                $allClassesStmt = $pdo->query("SELECT class_id, slug_title FROM classes");
                 $allClasses = $allClassesStmt->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach ($allClasses as $c) {
-                    $slugifiedName = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $c['class_name']), '-'));
+                    $slugTitle = !empty($c['slug_title']) ? $c['slug_title'] : strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $c['class_name'] ?? '')));
                     foreach ($templates as $t) {
-                        $expectedSlug = str_replace('keyword', $slugifiedName, $t['template_rule']);
+                        $expectedSlug = str_replace('keyword', $slugTitle, $t['template_rule']);
                         if ($expectedSlug === $id) {
                             $fetchStmt = $pdo->prepare("SELECT c.*, b.board_name FROM classes c LEFT JOIN boards b ON c.board_id = b.board_id WHERE c.class_id = :cid");
                             $fetchStmt->bindValue(':cid', $c['class_id']);
@@ -48,6 +48,16 @@ if ($id) {
         }
 
         if ($class) {
+            // Generate slugs for SEO links
+            $templateStmt = $pdo->query("SELECT template_rule FROM class_slug");
+            $templates = $templateStmt->fetchAll(PDO::FETCH_ASSOC);
+            $generated_slugs = [];
+            $baseKeyword = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $class['class_name'] ?? '')));
+            foreach ($templates as $t) {
+                $generated_slugs[] = str_replace('keyword', $baseKeyword, $t['template_rule']);
+            }
+            $class['generated_slugs'] = $generated_slugs;
+
             http_response_code(200);
             echo json_encode([
                 "success" => true,

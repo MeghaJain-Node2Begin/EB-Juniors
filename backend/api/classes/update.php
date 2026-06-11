@@ -32,7 +32,21 @@ if (!empty($data->class_id) && !empty($data->class_name) && !empty($data->board_
             duration = :duration, 
             status = :status, 
             display_order = :display_order,
-            thumbnail_image = :thumbnail_image
+            thumbnail_image = :thumbnail_image,
+            seo_title = :seo_title,
+            seo_description = :seo_description,
+            seo_keywords = :seo_keywords,
+            og_title = :og_title,
+            og_description = :og_description,
+            twitter_title = :twitter_title,
+            twitter_description = :twitter_description,
+            primary_keyword = :primary_keyword,
+            secondary_keywords = :secondary_keywords,
+            canonical_url = :canonical_url,
+            schema_json = :schema_json,
+            city = :city,
+            area = :area,
+            local_seo_enabled = :local_seo_enabled
             WHERE class_id = :class_id";
         
         $stmt = $pdo->prepare($query);
@@ -51,6 +65,21 @@ if (!empty($data->class_id) && !empty($data->class_name) && !empty($data->board_
         $stmt->bindValue(':status', $data->status ?? 'active');
         $stmt->bindValue(':display_order', (int)($data->display_order ?? 0));
         $stmt->bindValue(':thumbnail_image', $data->thumbnail_image ?? '');
+        $stmt->bindValue(':seo_title', $data->seo_title ?? '');
+        $stmt->bindValue(':seo_description', $data->seo_description ?? '');
+        $stmt->bindValue(':seo_keywords', $data->seo_keywords ?? '');
+        $stmt->bindValue(':og_title', $data->og_title ?? '');
+        $stmt->bindValue(':og_description', $data->og_description ?? '');
+        $stmt->bindValue(':twitter_title', $data->twitter_title ?? '');
+        $stmt->bindValue(':twitter_description', $data->twitter_description ?? '');
+        $stmt->bindValue(':primary_keyword', $data->primary_keyword ?? '');
+        $stmt->bindValue(':secondary_keywords', $data->secondary_keywords ?? '');
+        $stmt->bindValue(':canonical_url', $data->canonical_url ?? '');
+        $schema_json = !empty($data->schema_json) ? $data->schema_json : null;
+        $stmt->bindValue(':schema_json', $schema_json);
+        $stmt->bindValue(':city', $data->city ?? '');
+        $stmt->bindValue(':area', $data->area ?? '');
+        $stmt->bindValue(':local_seo_enabled', (int)($data->local_seo_enabled ?? 0));
 
         if ($stmt->execute()) {
             http_response_code(200);

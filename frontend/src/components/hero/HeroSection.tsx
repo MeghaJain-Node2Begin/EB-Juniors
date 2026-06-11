@@ -78,11 +78,15 @@ export default function HeroSection() {
           
           {/* Stage 3: Left Side Content Reveal */}
           <div className="w-full lg:w-1/3 flex flex-col items-start mt-10 lg:mt-0 pointer-events-auto z-20">
-            <motion.h1
+            {/* SEO H1 — visually hidden but crawlable for search engines */}
+            <h1 className="sr-only">Best Computer & Coding Classes in Surat for Class 6–12 Students — EB Juniors</h1>
+            <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
               className="font-display text-[48px] md:text-[64px] lg:text-[76px] font-bold tracking-[-0.03em] text-zinc-900 leading-[1.05] mb-8"
+              role="heading"
+              aria-level={2}
               dangerouslySetInnerHTML={{ __html: "Building<br/>Tomorrow's<br/>AI Creators<br/>Today." }}
             />
             

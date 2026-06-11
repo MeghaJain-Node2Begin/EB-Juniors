@@ -3,23 +3,40 @@
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import { Plus } from "lucide-react";
+import { FaqSchema } from "@/components/seo/JsonLd";
 
 const faqs = [
   {
-    question: "When do the new batches start?",
-    answer: "We typically start new batches immediately after university semester exams conclude. We also offer fast-track revision batches 2 months prior to exams. Contact us for exact dates based on your specific program."
+    question: "What computer and coding courses does EB Juniors offer in Surat?",
+    answer: "EB Juniors offers Java Programming, Python Programming, Web Development (HTML, CSS, JavaScript), Computer Fundamentals, and Academic IT courses. All courses are designed specifically for school students from Class 6 to 12 at our City Light, Surat center."
   },
   {
-    question: "Do you provide study materials?",
-    answer: "Yes, comprehensive study materials including compiled notes, important question banks, and solutions to previous year university papers are provided to all enrolled students."
+    question: "Can my child attend a free demo class before enrolling?",
+    answer: "Yes! We offer a completely free demo class so your child can experience our teaching methodology and get comfortable with the faculty. Simply call us at +91 95109 90292 or visit our institute at F-21, Agresen Point, City Light, Surat to book your demo."
   },
   {
-    question: "Can I attend a demo class before joining?",
-    answer: "Absolutely. We encourage students to attend up to 2 free demo lectures to understand our teaching methodology and get comfortable with our faculty before making a commitment."
+    question: "Is Python taught from scratch for beginners at EB Juniors?",
+    answer: "Absolutely. Our Python course starts from absolute zero — no prior coding experience is needed. We teach students step-by-step, from basic syntax to building real projects, making it perfect for Class 8 and above students in Surat who are new to programming."
   },
   {
-    question: "Are the classes online or offline?",
-    answer: "Most of our core university coaching is conducted entirely offline in our classrooms to ensure strict focus and environment. However, we do offer hybrid options for certain doubt-solving sessions."
+    question: "What are the batch timings and class schedule?",
+    answer: "We operate Monday to Saturday, 10:00 AM to 7:00 PM, with flexible batch timings designed around school schedules. We offer morning, afternoon, and evening batches so students can attend without missing their regular school classes."
+  },
+  {
+    question: "Do you offer Java classes for Class 11 and 12 students in Surat?",
+    answer: "Yes, our Java Programming course is specifically designed for Class 11 and 12 students preparing for board exams and competitive programming. We cover core Java, OOP concepts, data structures, and help students build practical projects that strengthen their understanding."
+  },
+  {
+    question: "Where is EB Juniors located in Surat?",
+    answer: "EB Juniors is located at F-21, Agresen Point, Beside Agresen Bhavan, City Light, Surat, Gujarat 395007. We are easily accessible from Adajan, Vesu, Piplod, and other areas of Surat."
+  },
+  {
+    question: "What age group or class is suitable for your coding courses?",
+    answer: "Our courses are designed for school students from Class 6 to Class 12. Whether your child is a complete beginner in Class 6 or a Class 12 student preparing for competitive exams, we have age-appropriate batches and curriculum for every level."
+  },
+  {
+    question: "Are the classes conducted online or offline in Surat?",
+    answer: "Our core classes are conducted entirely offline at our City Light, Surat institute to ensure focused learning and hands-on practice in our computer lab. However, we do offer hybrid doubt-solving sessions for select courses."
   }
 ];
 
@@ -206,9 +223,12 @@ export default function ContactFaq() {
               transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className="text-xl text-zinc-600 max-w-2xl"
             >
-              Find quick answers to common queries about our coaching programs and teaching methodology.
+              Find quick answers to common queries about our computer and coding classes in Surat.
             </motion.p>
           </div>
+
+          {/* FAQ Schema for Rich Results */}
+          <FaqSchema faqs={faqs} />
 
           {/* FAQ List */}
           <div className="space-y-4">

@@ -91,6 +91,7 @@ export default function BlogDetailsClient({ blog }: { blog: BlogData }) {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="prose prose-lg prose-emerald max-w-none text-zinc-700 font-light leading-relaxed prose-headings:font-black prose-headings:text-zinc-900 prose-a:text-emerald-600 prose-img:rounded-3xl"
           dangerouslySetInnerHTML={{ __html: blog.content }}
+          suppressHydrationWarning
         />
         
         {/* Author Bio Box */}

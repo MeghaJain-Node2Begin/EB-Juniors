@@ -4,8 +4,8 @@ import Footer from "@/components/footer/Footer";
 import { fetchCourses } from "@/lib/api";
 
 export const metadata = {
-  title: "Courses | Extrabits Junior",
-  description: "Explore our premium coding, robotics, and IT courses designed for young minds.",
+  title: "Coding & Computer Courses in Surat — Java, Python, Web Development",
+  description: "Explore EB Juniors' coding and computer courses in Surat for Class 6–12 students. Learn Java, Python, Web Development, and more with expert mentors at City Light, Surat.",
 };
 
 export const dynamic = 'force-dynamic';

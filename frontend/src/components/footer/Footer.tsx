@@ -15,10 +15,10 @@ const classLinks = [
   { label: "All Courses", href: "/courses" },
 ];
 const socialLinks = [
-  { icon: FaInstagram, href: "#", label: "Instagram" },
-  { icon: FaFacebook, href: "#", label: "Facebook" },
-  { icon: FaYoutube, href: "#", label: "YouTube" },
-  { icon: FaLinkedin, href: "#", label: "LinkedIn" },
+  { icon: FaInstagram, href: "https://www.instagram.com/ebjuniors", label: "Instagram" },
+  { icon: FaFacebook, href: "https://www.facebook.com/ebjuniors", label: "Facebook" },
+  { icon: FaYoutube, href: "https://www.youtube.com/@ebjuniors", label: "YouTube" },
+  { icon: FaLinkedin, href: "https://www.linkedin.com/company/ebjuniors", label: "LinkedIn" },
 ];
 
 export default function Footer() {
@@ -77,9 +77,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-sm text-zinc-600 leading-relaxed">
-              Empowering the next generation with practical computer skills and
-              coding knowledge — from basics to advanced programming for school
-              students.
+              Surat&apos;s trusted computer and coding institute for school students (Class 6–12). We teach Java, Python, Web Development, and Computer Fundamentals at City Light, Surat, Gujarat.
             </p>
 
             {/* Social Links */}
@@ -165,23 +163,23 @@ export default function Footer() {
                 <div className="mt-0.5 w-7 h-7 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0 group-hover:bg-emerald-100 transition-colors duration-300">
                   <MapPin className="w-3.5 h-3.5 text-emerald-600" />
                 </div>
-                <span className="leading-relaxed">
-                  123 Tech Park, Innovation Hub,
-                  <br />
-                  New Delhi, India 110001
-                </span>
+                <address className="not-italic leading-relaxed">
+                  F-21, Agresen Point,<br />
+                  Beside Agresen Bhavan,<br />
+                  City Light, Surat, Gujarat 395007
+                </address>
               </li>
               <li className="flex items-center gap-3 text-sm text-zinc-600 group">
                 <div className="w-7 h-7 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0 group-hover:bg-emerald-100 transition-colors duration-300">
                   <Phone className="w-3.5 h-3.5 text-emerald-600" />
                 </div>
-                +91 98765 43210
+                <a href="tel:+919510990292" className="hover:text-emerald-600 transition-colors">+91 95109 90292</a>
               </li>
               <li className="flex items-center gap-3 text-sm text-zinc-600 group">
                 <div className="w-7 h-7 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0 group-hover:bg-emerald-100 transition-colors duration-300">
                   <Mail className="w-3.5 h-3.5 text-emerald-600" />
                 </div>
-                hello@extrabitsjunior.com
+                <a href="mailto:extrabitsclasses@gmail.com" className="hover:text-emerald-600 transition-colors">extrabitsclasses@gmail.com</a>
               </li>
             </ul>
           </motion.div>

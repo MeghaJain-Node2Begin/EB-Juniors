@@ -226,4 +226,62 @@ body {
   .animate-marquee {
     animation: marquee 30s linear infinite;
   }
+
+  /* Premium HTML Content Styling */
+  .premium-html-content {
+    color: #52525b; /* zinc-600 */
+    line-height: 1.8;
+    font-size: 1rem;
+    font-family: var(--font-sans);
+  }
+
+  .premium-html-content h2 {
+    font-size: 1.5rem;
+    font-weight: 800; /* font-black */
+    color: #18181b; /* zinc-900 */
+    margin-top: 2.5rem;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.025em;
+  }
+
+  .premium-html-content h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #059669; /* emerald-600 */
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .premium-html-content p {
+    margin-bottom: 1.25rem;
+  }
+
+  .premium-html-content ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 1.5rem;
+  }
+
+  .premium-html-content ul li {
+    position: relative;
+    padding-left: 1.75rem;
+    margin-bottom: 0.875rem;
+    color: #52525b; /* zinc-600 */
+    font-weight: 500;
+  }
+
+  .premium-html-content ul li::before {
+    content: "◈";
+    position: absolute;
+    left: 0;
+    top: -1px;
+    color: #10b981; /* emerald-500 */
+    font-size: 0.9rem;
+  }
+
+  .premium-html-content strong, 
+  .premium-html-content b {
+    color: #27272a; /* zinc-800 */
+    font-weight: 800;
+  }
 }

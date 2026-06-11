@@ -21,6 +21,7 @@ interface ClassData {
   fees: string;
   image_url: string;
   status: string;
+  generated_slugs?: string[];
 }
 
 export default function ClassDetailsPage() {
@@ -34,7 +35,7 @@ export default function ClassDetailsPage() {
   useEffect(() => {
     const fetchClassDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/classes/read_single.php?id=${id}`);
+        const response = await fetch(`http://localhost:8000/api/classes/read_single.php?id=${encodeURIComponent(id)}`);
         const data = await response.json();
         if (data.success) {
           const classInfo = data.data;
@@ -135,6 +136,7 @@ export default function ClassDetailsPage() {
                   <div 
                     className="prose prose-zinc prose-lg max-w-none relative z-10 prose-headings:font-black prose-p:text-zinc-600 prose-a:text-emerald-600"
                     dangerouslySetInnerHTML={{ __html: classData.full_description }}
+                    suppressHydrationWarning
                   />
                 </div>
               )}
@@ -177,6 +179,32 @@ export default function ClassDetailsPage() {
                   ))}
                 </div>
               </div>
+
+              {classData.generated_slugs && classData.generated_slugs.length > 0 && (
+                <div className="flex flex-col gap-6 mt-8">
+                  <div>
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-8 h-[2px] bg-emerald-600"></div>
+                      <span className="text-emerald-600 font-bold tracking-widest text-sm uppercase">Explore More</span>
+                    </div>
+                    <h3 className="text-3xl md:text-4xl font-black text-zinc-900 tracking-tight">
+                      Popular Searches for {classData.class_name}
+                    </h3>
+                  </div>
+                  <div className="bg-white rounded-[32px] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-zinc-100 flex flex-wrap gap-3">
+                    {classData.generated_slugs.map((slug, idx) => (
+                      <Link 
+                        key={idx} 
+                        href={`/classes/${slug}`}
+                        className="px-4 py-2 bg-zinc-50 hover:bg-emerald-50 text-zinc-600 hover:text-emerald-700 rounded-xl text-sm font-medium transition-colors border border-zinc-200 shadow-sm capitalize"
+                      >
+                        {slug.replace(/-/g, ' ')}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
             </div>
 
             {/* Right Col: Enrollment Sticky Card */}

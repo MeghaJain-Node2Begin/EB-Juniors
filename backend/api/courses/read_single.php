@@ -28,13 +28,13 @@ if ($id) {
             $templates = $templateStmt->fetchAll(PDO::FETCH_ASSOC);
 
             if ($templates) {
-                $allCoursesStmt = $pdo->query("SELECT course_id, course_name FROM courses");
+                $allCoursesStmt = $pdo->query("SELECT course_id, slug_title FROM courses");
                 $allCourses = $allCoursesStmt->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach ($allCourses as $c) {
-                    $slugifiedName = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $c['course_name']), '-'));
+                    $slugTitle = !empty($c['slug_title']) ? $c['slug_title'] : strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $c['course_name'] ?? '')));
                     foreach ($templates as $t) {
-                        $expectedSlug = str_replace('keyword', $slugifiedName, $t['template_rule']);
+                        $expectedSlug = str_replace('keyword', $slugTitle, $t['template_rule']);
                         if ($expectedSlug === $id) {
                             $fetchStmt = $pdo->prepare("SELECT c.*, cl.class_name FROM courses c LEFT JOIN classes cl ON c.class_id = cl.class_id WHERE c.course_id = :cid");
                             $fetchStmt->bindValue(':cid', $c['course_id']);
@@ -48,6 +48,25 @@ if ($id) {
         }
 
         if ($course) {
+            // Generate slugs for SEO links
+            $templateStmt = $pdo->query("SELECT template_rule, is_primary FROM course_slug");
+            $templates = $templateStmt->fetchAll(PDO::FETCH_ASSOC);
+            $generated_slugs = [];
+            $primary_slug = null;
+            $baseKeyword = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $course['course_name'] ?? '')));
+            foreach ($templates as $t) {
+                $gen_slug = str_replace('keyword', $baseKeyword, $t['template_rule']);
+                $generated_slugs[] = $gen_slug;
+                if (!empty($t['is_primary']) && $t['is_primary'] == 1) {
+                    $primary_slug = $gen_slug;
+                }
+            }
+            if (empty($primary_slug)) {
+                $primary_slug = $slugTitle;
+            }
+            $course['generated_slugs'] = $generated_slugs;
+            $course['primary_slug'] = $primary_slug;
+
             http_response_code(200);
             echo json_encode([
                 "success" => true,

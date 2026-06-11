@@ -4,8 +4,8 @@ import Footer from "@/components/footer/Footer";
 import { fetchClasses } from "@/lib/api";
 
 export const metadata = {
-  title: "Classes | Extrabits Junior",
-  description: "Explore our premium coding and IT classes for grades 8th to 12th.",
+  title: "Computer Classes in Surat for Class 6–12 Students",
+  description: "Join EB Juniors' computer and IT classes in Surat designed for school students from Class 6 to 12. Expert coaching, practical learning, and exam-focused preparation at City Light, Surat.",
 };
 
 export const dynamic = 'force-dynamic';

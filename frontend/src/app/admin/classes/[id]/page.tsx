@@ -31,7 +31,7 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } }
+  show: { opacity: 1, y: 0, transition: { type: 'spring' as const, stiffness: 300, damping: 24 } }
 };
 
 export default function ClassDetailsPage() {
@@ -156,9 +156,16 @@ export default function ClassDetailsPage() {
                   Class Overview
                 </h2>
               </div>
-              <p className="text-zinc-600 leading-[1.8] text-lg font-medium whitespace-pre-wrap">
-                {classData.class_description || 'No detailed overview has been provided for this curriculum yet.'}
-              </p>
+              {classData.class_description ? (
+                <div 
+                  className="premium-html-content"
+                  dangerouslySetInnerHTML={{ __html: classData.class_description }}
+                />
+              ) : (
+                <p className="text-zinc-600 leading-[1.8] text-lg font-medium whitespace-pre-wrap">
+                  No detailed overview has been provided for this curriculum yet.
+                </p>
+              )}
             </motion.div>
 
             {/* Recommended Courses Glass Card */}

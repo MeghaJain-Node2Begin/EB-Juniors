@@ -31,7 +31,7 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } }
+  show: { opacity: 1, y: 0, transition: { type: 'spring' as const, stiffness: 300, damping: 24 } }
 };
 
 export default function CourseDetailsPage() {
@@ -176,9 +176,16 @@ export default function CourseDetailsPage() {
                   Full Course Details
                 </h2>
               </div>
-              <div className="prose prose-zinc max-w-none text-zinc-600 leading-[1.8] text-[15px] font-medium whitespace-pre-wrap">
-                {courseData.full_description || 'Detailed course information has not been added yet.'}
-              </div>
+              {courseData.full_description ? (
+                <div 
+                  className="premium-html-content"
+                  dangerouslySetInnerHTML={{ __html: courseData.full_description }}
+                />
+              ) : (
+                <div className="prose prose-zinc max-w-none text-zinc-600 leading-[1.8] text-[15px] font-medium whitespace-pre-wrap">
+                  Detailed course information has not been added yet.
+                </div>
+              )}
             </motion.div>
           </div>
 

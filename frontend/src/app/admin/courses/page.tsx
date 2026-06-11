@@ -24,12 +24,21 @@ interface CourseData {
   is_featured: boolean;
   status: string;
   created_at: string;
-  meta_title?: string;
-  meta_description?: string;
-  meta_keywords?: string;
+  thumbnail_image?: string;
+  seo_title?: string;
+  seo_description?: string;
+  seo_keywords?: string;
   og_title?: string;
   og_description?: string;
-  schema_markup?: string;
+  twitter_title?: string;
+  twitter_description?: string;
+  primary_keyword?: string;
+  secondary_keywords?: string;
+  canonical_url?: string;
+  schema_json?: string;
+  city?: string;
+  area?: string;
+  local_seo_enabled?: boolean | number;
 }
 
 export default function ManageCourses() {
@@ -50,12 +59,20 @@ export default function ManageCourses() {
   const [fullDescription, setFullDescription] = useState('');
 
   const [activeTab, setActiveTab] = useState<'details' | 'seo'>('details');
-  const [metaTitle, setMetaTitle] = useState('');
-  const [metaDescription, setMetaDescription] = useState('');
-  const [metaKeywords, setMetaKeywords] = useState('');
+  const [seoTitle, setSeoTitle] = useState('');
+  const [seoDescription, setSeoDescription] = useState('');
+  const [seoKeywords, setSeoKeywords] = useState('');
   const [ogTitle, setOgTitle] = useState('');
   const [ogDescription, setOgDescription] = useState('');
-  const [schemaMarkup, setSchemaMarkup] = useState('');
+  const [twitterTitle, setTwitterTitle] = useState('');
+  const [twitterDescription, setTwitterDescription] = useState('');
+  const [primaryKeyword, setPrimaryKeyword] = useState('');
+  const [secondaryKeywords, setSecondaryKeywords] = useState('');
+  const [canonicalUrl, setCanonicalUrl] = useState('');
+  const [schemaJson, setSchemaJson] = useState('');
+  const [city, setCity] = useState('');
+  const [area, setArea] = useState('');
+  const [localSeoEnabled, setLocalSeoEnabled] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGeneratingSEO, setIsGeneratingSEO] = useState(false);
@@ -127,12 +144,20 @@ export default function ManageCourses() {
     setThumbnailImage('');
     setShortDescription('');
     setFullDescription('');
-    setMetaTitle('');
-    setMetaDescription('');
-    setMetaKeywords('');
+    setSeoTitle('');
+    setSeoDescription('');
+    setSeoKeywords('');
     setOgTitle('');
     setOgDescription('');
-    setSchemaMarkup('');
+    setTwitterTitle('');
+    setTwitterDescription('');
+    setPrimaryKeyword('');
+    setSecondaryKeywords('');
+    setCanonicalUrl('');
+    setSchemaJson('');
+    setCity('');
+    setArea('');
+    setLocalSeoEnabled(false);
     setActiveTab('details');
     setMessage({ text: '', type: '' });
     setIsModalOpen(true);
@@ -151,12 +176,20 @@ export default function ManageCourses() {
     setThumbnailImage(c.thumbnail_image || '');
     setShortDescription(c.short_description || '');
     setFullDescription(c.full_description || '');
-    setMetaTitle(c.meta_title || '');
-    setMetaDescription(c.meta_description || '');
-    setMetaKeywords(c.meta_keywords || '');
+    setSeoTitle(c.seo_title || '');
+    setSeoDescription(c.seo_description || '');
+    setSeoKeywords(c.seo_keywords || '');
     setOgTitle(c.og_title || '');
     setOgDescription(c.og_description || '');
-    setSchemaMarkup(c.schema_markup || '');
+    setTwitterTitle(c.twitter_title || '');
+    setTwitterDescription(c.twitter_description || '');
+    setPrimaryKeyword(c.primary_keyword || '');
+    setSecondaryKeywords(c.secondary_keywords || '');
+    setCanonicalUrl(c.canonical_url || '');
+    setSchemaJson(c.schema_json || '');
+    setCity(c.city || '');
+    setArea(c.area || '');
+    setLocalSeoEnabled(Boolean(c.local_seo_enabled));
     setActiveTab('details');
     setMessage({ text: '', type: '' });
     setIsModalOpen(true);
@@ -210,13 +243,17 @@ export default function ManageCourses() {
       
       const data = await response.json();
       if (data.success && data.data) {
-        setMetaTitle(data.data.meta_title || '');
-        setMetaDescription(data.data.meta_description || '');
-        setMetaKeywords(data.data.meta_keywords || '');
+        setSeoTitle(data.data.seo_title || '');
+        setSeoDescription(data.data.seo_description || '');
+        setSeoKeywords(data.data.seo_keywords || '');
         setOgTitle(data.data.og_title || '');
         setOgDescription(data.data.og_description || '');
+        setTwitterTitle(data.data.twitter_title || '');
+        setTwitterDescription(data.data.twitter_description || '');
+        setPrimaryKeyword(data.data.primary_keyword || '');
+        setSecondaryKeywords(data.data.secondary_keywords || '');
         
-        let schemaStr = data.data.schema_markup || '';
+        let schemaStr = data.data.schema_json || '';
         if (typeof schemaStr === 'object') {
           schemaStr = JSON.stringify(schemaStr, null, 2);
         } else if (typeof schemaStr === 'string') {
@@ -224,7 +261,7 @@ export default function ManageCourses() {
             schemaStr = JSON.stringify(JSON.parse(schemaStr), null, 2);
           } catch(e) {}
         }
-        setSchemaMarkup(schemaStr);
+        setSchemaJson(schemaStr);
       } else {
         alert(data.message || "Failed to generate SEO data. Please check if AI Config is set.");
       }
@@ -292,12 +329,20 @@ export default function ManageCourses() {
         thumbnail_image: thumbnailImage,
         short_description: shortDescription,
         full_description: fullDescription,
-        meta_title: metaTitle,
-        meta_description: metaDescription,
-        meta_keywords: metaKeywords,
+        seo_title: seoTitle,
+        seo_description: seoDescription,
+        seo_keywords: seoKeywords,
         og_title: ogTitle,
         og_description: ogDescription,
-        schema_markup: schemaMarkup,
+        twitter_title: twitterTitle,
+        twitter_description: twitterDescription,
+        primary_keyword: primaryKeyword,
+        secondary_keywords: secondaryKeywords,
+        canonical_url: canonicalUrl,
+        schema_json: schemaJson,
+        city: city,
+        area: area,
+        local_seo_enabled: localSeoEnabled ? 1 : 0,
       };
 
       if (editingCourseId) {
@@ -535,7 +580,7 @@ export default function ManageCourses() {
                     <input
                       type="text"
                       value={slugTitle}
-                      onChange={(e) => setSlugTitle(e.target.value)}
+                      onChange={(e) => setSlugTitle(e.target.value.toLowerCase().replace(/\s+/g, '-'))}
                       placeholder="e.g. basic-computer-course"
                       className="w-full p-3.5 bg-zinc-50 border border-zinc-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all placeholder:text-zinc-400 font-medium text-zinc-800"
                     />
@@ -644,6 +689,44 @@ export default function ManageCourses() {
 
                 {activeTab === 'seo' && (
                   <div className="space-y-8 bg-zinc-50/50 p-6 rounded-2xl border border-zinc-100/80 shadow-sm">
+                    {/* LOCAL SEO SETTINGS */}
+                    {/* <div>
+                      <h3 className="text-sm font-black text-zinc-400 tracking-widest uppercase mb-6">Local SEO Setup</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                        <label className="flex items-center gap-3 cursor-pointer col-span-2">
+                          <input
+                            type="checkbox"
+                            checked={localSeoEnabled}
+                            onChange={(e) => setLocalSeoEnabled(e.target.checked)}
+                            className="w-5 h-5 text-teal-600 rounded border-zinc-300 focus:ring-teal-500"
+                          />
+                          <span className="text-sm font-bold text-zinc-700">Enable Dynamic Local SEO Landing Pages (e.g. ?city=Surat)</span>
+                        </label>
+                        <div>
+                          <label className="block text-sm font-bold text-zinc-800 mb-2">Target City</label>
+                          <input 
+                            type="text" 
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            placeholder="e.g. Surat"
+                            className="w-full p-3.5 bg-zinc-50 border border-zinc-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#5568f2]/20 focus:border-[#5568f2] outline-none transition-all placeholder:text-zinc-400 font-medium text-zinc-800"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-bold text-zinc-800 mb-2">Target Area</label>
+                          <input 
+                            type="text" 
+                            value={area}
+                            onChange={(e) => setArea(e.target.value)}
+                            placeholder="e.g. Adajan"
+                            className="w-full p-3.5 bg-zinc-50 border border-zinc-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#5568f2]/20 focus:border-[#5568f2] outline-none transition-all placeholder:text-zinc-400 font-medium text-zinc-800"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="w-full h-px bg-zinc-200/60 my-8"></div> */}
+
                     {/* SEARCH ENGINE OPTIMIZATION */}
                     <div>
                       <div className="flex items-center justify-between mb-6">
@@ -657,47 +740,74 @@ export default function ManageCourses() {
                           >
                             <span className="text-[10px] leading-none">✨</span> {isGeneratingSEO ? 'Generating...' : 'Generate AI SEO'}
                           </button>
-                          <button 
-                            type="button" 
-                            onClick={handleGenerateSEO}
-                            disabled={isGeneratingSEO}
-                            className="px-4 py-1.5 bg-[#3b82f6] text-white rounded-lg text-xs font-bold flex items-center gap-1.5 hover:bg-[#2563eb] transition-colors shadow-sm disabled:opacity-50"
-                          >
-                            <span className="text-[10px] leading-none">🧪</span> {isGeneratingSEO ? 'Enhancing...' : 'Enhance SEO'}
-                          </button>
                         </div>
                       </div>
 
                       <div className="space-y-5">
-                        <div>
-                          <label className="block text-sm font-bold text-zinc-800 mb-2">Meta Title</label>
-                          <input 
-                            type="text" 
-                            value={metaTitle}
-                            onChange={(e) => setMetaTitle(e.target.value)}
-                            placeholder="SEO Title (e.g., Best BCA Course in Surat)"
-                            className="w-full p-3.5 bg-zinc-50 border border-zinc-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#5568f2]/20 focus:border-[#5568f2] outline-none transition-all placeholder:text-zinc-400 font-medium text-zinc-800"
-                          />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                          <div>
+                            <label className="block text-sm font-bold text-zinc-800 mb-2">SEO Title</label>
+                            <input 
+                              type="text" 
+                              value={seoTitle}
+                              onChange={(e) => setSeoTitle(e.target.value)}
+                              placeholder="SEO Title (e.g., Best BCA Course in Surat)"
+                              className="w-full p-3.5 bg-zinc-50 border border-zinc-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#5568f2]/20 focus:border-[#5568f2] outline-none transition-all placeholder:text-zinc-400 font-medium text-zinc-800"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-bold text-zinc-800 mb-2">Canonical URL</label>
+                            <input 
+                              type="text" 
+                              value={canonicalUrl}
+                              onChange={(e) => setCanonicalUrl(e.target.value)}
+                              placeholder="e.g. /courses/basic-computer"
+                              className="w-full p-3.5 bg-zinc-50 border border-zinc-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#5568f2]/20 focus:border-[#5568f2] outline-none transition-all placeholder:text-zinc-400 font-medium text-zinc-800"
+                            />
+                          </div>
                         </div>
 
                         <div>
-                          <label className="block text-sm font-bold text-zinc-800 mb-2">Meta Description</label>
+                          <label className="block text-sm font-bold text-zinc-800 mb-2">SEO Description</label>
                           <textarea 
-                            value={metaDescription}
-                            onChange={(e) => setMetaDescription(e.target.value)}
+                            value={seoDescription}
+                            onChange={(e) => setSeoDescription(e.target.value)}
                             rows={3}
                             placeholder="Write a compelling SEO description..."
                             className="w-full p-3.5 bg-zinc-50 border border-zinc-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#5568f2]/20 focus:border-[#5568f2] outline-none transition-all placeholder:text-zinc-400 font-medium text-zinc-800 resize-y"
                           />
                         </div>
 
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                          <div>
+                            <label className="block text-sm font-bold text-zinc-800 mb-2">Primary Keyword</label>
+                            <input 
+                              type="text" 
+                              value={primaryKeyword}
+                              onChange={(e) => setPrimaryKeyword(e.target.value)}
+                              placeholder="e.g. basic computer classes"
+                              className="w-full p-3.5 bg-zinc-50 border border-zinc-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#5568f2]/20 focus:border-[#5568f2] outline-none transition-all placeholder:text-zinc-400 font-medium text-zinc-800"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-bold text-zinc-800 mb-2">Secondary Keywords</label>
+                            <input 
+                              type="text" 
+                              value={secondaryKeywords}
+                              onChange={(e) => setSecondaryKeywords(e.target.value)}
+                              placeholder="comma separated"
+                              className="w-full p-3.5 bg-zinc-50 border border-zinc-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#5568f2]/20 focus:border-[#5568f2] outline-none transition-all placeholder:text-zinc-400 font-medium text-zinc-800"
+                            />
+                          </div>
+                        </div>
+                        
                         <div>
-                          <label className="block text-sm font-bold text-zinc-800 mb-2">Meta Keywords</label>
+                          <label className="block text-sm font-bold text-zinc-800 mb-2">All SEO Keywords (Legacy)</label>
                           <input 
                             type="text" 
-                            value={metaKeywords}
-                            onChange={(e) => setMetaKeywords(e.target.value)}
-                            placeholder="bca, programming, degree, gujarat university..."
+                            value={seoKeywords}
+                            onChange={(e) => setSeoKeywords(e.target.value)}
+                            placeholder="comma separated"
                             className="w-full p-3.5 bg-zinc-50 border border-zinc-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#5568f2]/20 focus:border-[#5568f2] outline-none transition-all placeholder:text-zinc-400 font-medium text-zinc-800"
                           />
                         </div>
@@ -708,7 +818,7 @@ export default function ManageCourses() {
 
                     {/* SOCIAL MEDIA (OPEN GRAPH) */}
                     <div>
-                      <h3 className="text-sm font-black text-zinc-400 tracking-widest uppercase mb-6">Social Media (Open Graph)</h3>
+                      <h3 className="text-sm font-black text-zinc-400 tracking-widest uppercase mb-6">Social Media (Open Graph & Twitter)</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
                           <label className="block text-sm font-bold text-zinc-800 mb-2">OG Title</label>
@@ -730,6 +840,26 @@ export default function ManageCourses() {
                             className="w-full p-3.5 bg-zinc-50 border border-zinc-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#5568f2]/20 focus:border-[#5568f2] outline-none transition-all placeholder:text-zinc-400 font-medium text-zinc-800"
                           />
                         </div>
+                        <div>
+                          <label className="block text-sm font-bold text-zinc-800 mb-2">Twitter Title</label>
+                          <input 
+                            type="text" 
+                            value={twitterTitle}
+                            onChange={(e) => setTwitterTitle(e.target.value)}
+                            placeholder="Twitter card title"
+                            className="w-full p-3.5 bg-zinc-50 border border-zinc-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#5568f2]/20 focus:border-[#5568f2] outline-none transition-all placeholder:text-zinc-400 font-medium text-zinc-800"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-bold text-zinc-800 mb-2">Twitter Description</label>
+                          <input 
+                            type="text" 
+                            value={twitterDescription}
+                            onChange={(e) => setTwitterDescription(e.target.value)}
+                            placeholder="Twitter card description"
+                            className="w-full p-3.5 bg-zinc-50 border border-zinc-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#5568f2]/20 focus:border-[#5568f2] outline-none transition-all placeholder:text-zinc-400 font-medium text-zinc-800"
+                          />
+                        </div>
                       </div>
                     </div>
 
@@ -748,19 +878,11 @@ export default function ManageCourses() {
                           >
                             <span className="text-[10px] leading-none">✨</span> {isGeneratingSEO ? 'Generating...' : 'Generate AI Schema'}
                           </button>
-                          <button 
-                            type="button" 
-                            onClick={handleGenerateSEO}
-                            disabled={isGeneratingSEO}
-                            className="px-4 py-1.5 bg-[#3b82f6] text-white rounded-lg text-xs font-bold flex items-center gap-1.5 hover:bg-[#2563eb] transition-colors shadow-sm disabled:opacity-50"
-                          >
-                            <span className="text-[10px] leading-none">🧪</span> {isGeneratingSEO ? 'Enhancing...' : 'Enhance Schema'}
-                          </button>
                         </div>
                       </div>
                       <textarea 
-                        value={schemaMarkup}
-                        onChange={(e) => setSchemaMarkup(e.target.value)}
+                        value={schemaJson}
+                        onChange={(e) => setSchemaJson(e.target.value)}
                         rows={5}
                         placeholder='{ "@context": "https://schema.org", "@type": "Course", "name": "..." }'
                         className="w-full p-4 bg-zinc-50 border border-zinc-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#5568f2]/20 focus:border-[#5568f2] outline-none transition-all placeholder:text-zinc-400 font-mono text-sm text-zinc-800 resize-y"

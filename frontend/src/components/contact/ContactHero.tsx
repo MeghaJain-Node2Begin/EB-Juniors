@@ -99,7 +99,7 @@ export default function ContactHero() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-5xl md:text-7xl font-black text-zinc-900 mb-6 leading-[1.1] max-w-4xl tracking-tight"
         >
-          Let's Start a <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">Conversation</span>
+          Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">EB Juniors</span> in Surat
         </motion.h1>
 
         {/* Subtitle */}
@@ -109,7 +109,7 @@ export default function ContactHero() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="text-lg md:text-xl text-zinc-600 font-medium mb-10 leading-relaxed max-w-2xl mx-auto"
         >
-          Have a question about our courses? Want to schedule a free demo? Our team is here to guide you on your tech journey.
+          Have a question about our Java, Python, or Web Development courses? Want to schedule a free demo class for your child? Visit us at City Light, Surat or get in touch today.
         </motion.p>
         
         <motion.div

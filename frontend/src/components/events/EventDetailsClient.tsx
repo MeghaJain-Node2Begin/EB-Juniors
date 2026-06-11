@@ -108,6 +108,7 @@ export default function EventDetailsClient({ event }: { event: EventData }) {
             <div 
               className="prose prose-lg prose-teal max-w-none text-zinc-700 font-light leading-relaxed prose-headings:font-black prose-headings:text-zinc-900 prose-a:text-teal-600 mb-16"
               dangerouslySetInnerHTML={{ __html: event.description }}
+              suppressHydrationWarning
             />
 
             {galleryImages.length > 0 && (

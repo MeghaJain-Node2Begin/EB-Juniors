@@ -121,7 +121,7 @@ export default function MissionVision() {
               transition={{ delay: 0.1 }}
               className="text-lg text-zinc-600 leading-relaxed max-w-2xl mx-auto lg:mx-0"
             >
-              At Extrabits Junior, we focus on building confidence, creativity, and practical IT knowledge for students from Class 8th to 12th. Our hands-on learning approach helps students explore technology beyond textbooks and prepares them for real-world opportunities.
+              At Extrabits Junior (EB Juniors) in Surat, we focus on building confidence, creativity, and practical IT knowledge for students from Class 6 to 12. Our hands-on learning approach at City Light, Surat helps students explore technology beyond Gujarat Board and CBSE textbooks, preparing them for real-world opportunities.
             </motion.p>
           </div>
 

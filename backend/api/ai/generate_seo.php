@@ -37,20 +37,31 @@ $entityType = $data->entity_type;
 $context = $data->context;
 
 // Construct Prompt
-$prompt = "You are an expert SEO specialist for Extrabits Junior, a computer education institute in Surat, Gujarat. 
+$prompt = "You are a Senior Local SEO Strategist for Extra-Bits Junior, a computer education institute in Surat, Gujarat. 
 Generate highly optimized, locally focused SEO metadata for a '$entityType'. 
 Details of the $entityType: $context.
 
-Make sure the schema markup includes an \"image\" key-value pair with a placeholder link like 'https://extrabitsjunior.com/placeholder.jpg' if one is not provided in the context.
+CRITICAL SEO RULES:
+1. Meta Title must be under 60 characters.
+2. Meta Description must be under 160 characters.
+3. OG Title should be more attractive than Meta Title (optimized for social sharing clicks).
+4. No keyword stuffing. Ensure natural language.
+5. No fake claims, fake ratings, or fake offers.
+6. Make sure the schema markup includes an \"image\" key-value pair with a placeholder link like 'https://extrabitsjunior.com/placeholder.jpg' if one is not provided.
+7. Strictly focus on local keywords for Surat, Gujarat, India.
 
-Return ONLY a valid JSON object with the following keys, and nothing else (no markdown formatting, no explanations):
+Return ONLY a valid JSON object with the exact keys below, and nothing else (no markdown formatting, no explanations):
 {
-  \"meta_title\": \"(A compelling meta title under 60 characters, including location if relevant)\",
-  \"meta_description\": \"(A compelling meta description under 160 characters, including location if relevant)\",
-  \"meta_keywords\": \"(Comma separated SEO keywords, including local keywords like Surat, Gujarat)\",
-  \"og_title\": \"(Social media open graph title)\",
+  \"seo_title\": \"(A compelling meta title under 60 chars)\",
+  \"seo_description\": \"(A compelling meta description under 160 chars)\",
+  \"seo_keywords\": \"(Comma separated SEO keywords, including local keywords like Surat, Gujarat)\",
+  \"og_title\": \"(Social media open graph title - catchy and engaging)\",
   \"og_description\": \"(Social media open graph description)\",
-  \"schema_markup\": \"(Valid JSON-LD schema markup string representation. Escape quotes properly since it will be a string value in JSON)\"
+  \"twitter_title\": \"(Twitter card title)\",
+  \"twitter_description\": \"(Twitter card description)\",
+  \"primary_keyword\": \"(The single most important local SEO keyword for this entity)\",
+  \"secondary_keywords\": \"(Comma separated secondary keywords)\",
+  \"schema_json\": \"(Valid JSON-LD schema markup string representation. Escape quotes properly since it will be a string value in JSON. Only include factual data)\"
 }";
 
 $ch = curl_init();
@@ -72,7 +83,7 @@ $postData = [
     ],
     "response_format" => ["type" => "json_object"],
     "temperature" => 0.7,
-    "max_tokens" => 8000
+    "max_tokens" => 2000
 ];
 
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));

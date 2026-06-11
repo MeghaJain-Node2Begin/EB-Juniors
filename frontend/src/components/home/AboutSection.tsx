@@ -53,7 +53,7 @@ export default function AboutSection() {
             </h2>
             
             <p className="text-lg text-zinc-600 leading-relaxed mb-8 max-w-xl" style={{ fontFamily: "var(--font-dm-sans)" }}>
-              EB Juniors bridges the gap between basic school curriculum and real-world tech skills. We provide young learners with a modern ecosystem to master coding, design, and foundational computer sciences before they even reach college.
+              EB Juniors bridges the gap between basic school curriculum and real-world tech skills for students in Surat. Based in City Light, Surat, we provide young learners (Class 6 to 12) with a modern ecosystem to master coding, design, and foundational computer sciences — going beyond what Gujarat Board and CBSE textbooks offer.
             </p>
 
             <ul className="space-y-4 mb-10">

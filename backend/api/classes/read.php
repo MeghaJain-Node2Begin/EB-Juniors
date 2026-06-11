@@ -18,7 +18,26 @@ try {
     $stmt = $pdo->prepare($query);
     $stmt->execute();
 
-    $classes = $stmt->fetchAll();
+    $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Get primary slug template
+    $primarySlugStmt = $pdo->query("SELECT template_rule FROM class_slug WHERE is_primary = 1 LIMIT 1");
+    $primaryTemplate = $primarySlugStmt->fetchColumn();
+
+    if ($primaryTemplate) {
+        foreach ($classes as &$cls) {
+            if (empty($cls['slug_title'])) {
+                $baseSlug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $cls['class_name'] ?? '')));
+                $cls['slug_title'] = str_replace('keyword', $baseSlug, $primaryTemplate);
+            }
+        }
+    } else {
+        foreach ($classes as &$cls) {
+            if (empty($cls['slug_title'])) {
+                $cls['slug_title'] = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $cls['class_name'] ?? '')));
+            }
+        }
+    }
 
     http_response_code(200);
     echo json_encode([

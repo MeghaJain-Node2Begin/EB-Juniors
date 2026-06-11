@@ -128,7 +128,7 @@ $postData = [
         ]
     ],
     "temperature" => 0.2, // Low temperature for consistent formatting
-    "max_tokens" => 8000
+    "max_tokens" => 2000
 ];
 
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));

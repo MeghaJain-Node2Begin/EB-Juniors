@@ -3,6 +3,11 @@ import Footer from "@/components/footer/Footer";
 import EventsContent from "@/components/events/EventsContent";
 import { fetchEvents } from "@/lib/api";
 
+export const metadata = {
+  title: "Events & Workshops — EB Juniors Surat",
+  description: "Explore upcoming coding workshops, tech events, and competitions at EB Juniors in Surat. Join our community of young learners and innovators.",
+};
+
 export const dynamic = 'force-dynamic';
 
 export default async function EventsPage() {

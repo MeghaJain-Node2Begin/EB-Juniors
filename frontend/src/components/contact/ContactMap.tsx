@@ -27,7 +27,7 @@ export default function ContactMap() {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl lg:text-6xl font-black text-zinc-900 mb-6 tracking-tight"
           >
-            Visit Our <span className="text-emerald-600">Headquarters</span>
+            Visit Us in <span className="text-emerald-600">City Light, Surat</span>
           </motion.h2>
           
           <motion.p 
@@ -37,7 +37,7 @@ export default function ContactMap() {
             transition={{ delay: 0.2 }}
             className="text-lg text-zinc-600 max-w-2xl text-center font-medium"
           >
-            Drop by for a comprehensive campus tour or a face-to-face strategic consultation with our advisors.
+            Drop by our institute at Agresen Point for a free demo class or a face-to-face consultation about our coding courses.
           </motion.p>
         </div>
 

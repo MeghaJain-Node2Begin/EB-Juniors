@@ -3,6 +3,11 @@ import Footer from "@/components/footer/Footer";
 import TestimonialsContent from "@/components/testimonials/TestimonialsContent";
 import { fetchTestimonials } from "@/lib/api";
 
+export const metadata = {
+  title: "Student Reviews & Testimonials — EB Juniors Surat",
+  description: "Read what students and parents say about EB Juniors' computer and coding classes in Surat. Real reviews from Class 6–12 students learning Java, Python, and Web Development.",
+};
+
 export const dynamic = 'force-dynamic';
 
 export default async function TestimonialsPage() {

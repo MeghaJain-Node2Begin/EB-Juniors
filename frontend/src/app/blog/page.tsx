@@ -4,8 +4,8 @@ import BlogContent from "@/components/blog/BlogContent";
 import { fetchBlogs } from "@/lib/api";
 
 export const metadata = {
-  title: "Blog & Insights | Extrabits Junior",
-  description: "Read the latest articles, insights, and news from Extrabits Junior.",
+  title: "Blog — Computer & Coding Tips for Students in Surat",
+  description: "Read the latest articles, coding tutorials, exam tips, and tech insights from EB Juniors — Surat's top computer institute for school students.",
 };
 
 export const dynamic = 'force-dynamic';

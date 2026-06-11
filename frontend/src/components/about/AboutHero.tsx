@@ -109,7 +109,7 @@ export default function AboutHero() {
             About
           </h1>
           <h1 className="text-5xl md:text-6xl lg:text-[72px] font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500 leading-[1.1] tracking-tight">
-            Extrabits Junior
+            EB Juniors
           </h1>
         </motion.div>
 
@@ -120,7 +120,7 @@ export default function AboutHero() {
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className="text-lg md:text-xl text-zinc-600 max-w-3xl leading-relaxed mb-16 font-medium"
         >
-          Extrabits Junior provides top-tier practical IT education designed specifically for school students. We turn complex coding concepts into fun, real-world skills.
+          Extrabits Junior (EB Juniors) is a trusted computer and coding institute, providing top-tier practical IT education specifically for school students from Class 6 to 12. We help Gujarat Board and CBSE students turn complex coding concepts into fun, real-world skills.
         </motion.p>
 
         {/* The 4 square cards were removed to match the updated stats layout */}
