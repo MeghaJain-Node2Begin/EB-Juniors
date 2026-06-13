@@ -26,16 +26,21 @@ try {
 
     if ($primaryTemplate) {
         foreach ($courses as &$course) {
+            $baseSlug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $course['course_name'] ?? '')));
+            $primarySlug = str_replace('keyword', $baseSlug, $primaryTemplate);
+            
             if (empty($course['slug_title'])) {
-                $baseSlug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $course['course_name'] ?? '')));
-                $course['slug_title'] = str_replace('keyword', $baseSlug, $primaryTemplate);
+                $course['slug_title'] = $primarySlug;
             }
+            $course['primary_slug'] = $primarySlug;
         }
     } else {
         foreach ($courses as &$course) {
+            $baseSlug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $course['course_name'] ?? '')));
             if (empty($course['slug_title'])) {
-                $course['slug_title'] = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $course['course_name'] ?? '')));
+                $course['slug_title'] = $baseSlug;
             }
+            $course['primary_slug'] = $baseSlug;
         }
     }
 
