@@ -282,7 +282,7 @@ export default function CoursesContent({ courses = [] }: { courses?: CourseData[
 
                       {/* Enroll Action CTA */}
                       <div className="pt-3 mt-auto">
-                        <Link href={`/courses/${course.slug_title || course.course_id}`} className="w-full">
+                        <Link href={`/courses/${course.primary_slug || course.slug_title || course.course_id}`} className="w-full">
                           <motion.button 
                             variants={{ hover: { scale: 1.02 } }}
                             className={`w-full py-3.5 rounded-[16px] ${depthColor} text-white font-bold flex items-center justify-center gap-2 shadow-sm transition-all hover:brightness-110`}

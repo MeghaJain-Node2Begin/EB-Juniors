@@ -35,6 +35,7 @@ export interface CourseData {
   status: string;
   created_at: string;
   class_name: string;
+  primary_slug?: string;
 }
 
 export async function fetchClasses(): Promise<ClassData[]> {

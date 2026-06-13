@@ -35,15 +35,7 @@ export default function CourseDetailsClient({ initialData, city, idParam }: Prop
   const [courseData, setCourseData] = useState<CourseData>(initialData);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    // Redirect to the primary slug if the current URL uses an ID or secondary slug
-    // and we don't have query params we want to keep
-    const expectedSlug = courseData.primary_slug || courseData.slug_title;
-    if (expectedSlug && idParam !== expectedSlug) {
-      const query = city ? `?city=${city}` : '';
-      router.replace(`/courses/${expectedSlug}${query}`);
-    }
-  }, [idParam, courseData.slug_title, courseData.primary_slug, city, router]);
+  // Redirect logic moved to server-side in page.tsx for zero-delay instantaneous redirection
 
   if (isLoading) {
     return (

@@ -82,6 +82,8 @@ export async function generateMetadata(
   };
 }
 
+import { redirect } from 'next/navigation';
+
 export default async function CoursePage(props: Props) {
   const params = await props.params;
   const searchParams = await props.searchParams;
@@ -94,6 +96,12 @@ export default async function CoursePage(props: Props) {
         <h1 className="text-2xl font-bold text-zinc-900">Course Not Found</h1>
       </div>
     );
+  }
+
+  const expectedSlug = course.primary_slug || course.slug_title;
+  if (expectedSlug && params.id !== expectedSlug) {
+    const query = city ? `?city=${city}` : '';
+    redirect(`/courses/${expectedSlug}${query}`);
   }
 
   // Schema Generation
