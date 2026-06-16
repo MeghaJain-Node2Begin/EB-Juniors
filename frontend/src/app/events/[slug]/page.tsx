@@ -1,7 +1,7 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import TopNavbar from "@/components/hero/TopNavbar";
-import Footer from "@/components/footer/Footer";
+import DeferredFooter from "@/components/layout/DeferredFooter";
 import { fetchEventBySlug } from "@/lib/api";
 import EventDetailsClient from '@/components/events/EventDetailsClient';
 
@@ -22,7 +22,7 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ s
       <div className="flex-grow">
         <EventDetailsClient event={event} />
       </div>
-      <Footer />
+      <DeferredFooter />
     </main>
   );
 }

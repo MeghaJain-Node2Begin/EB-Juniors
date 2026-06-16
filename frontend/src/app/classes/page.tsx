@@ -1,6 +1,6 @@
 import TopNavbar from "@/components/hero/TopNavbar";
 import ClassesContent from "@/components/classes/ClassesContent";
-import Footer from "@/components/footer/Footer";
+import DeferredFooter from "@/components/layout/DeferredFooter";
 import { fetchClasses } from "@/lib/api";
 
 export const metadata = {
@@ -17,7 +17,7 @@ export default async function ClassesPage() {
     <main className="min-h-screen bg-[#FDFBF7] flex flex-col font-sans overflow-x-hidden">
       <TopNavbar />
       <ClassesContent classes={classes} />
-      <Footer />
+      <DeferredFooter />
     </main>
   );
 }

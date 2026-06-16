@@ -1,30 +1,45 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import gsap from "gsap";
+import { useEffect, useRef, useState } from "react";
+import { getPerformanceProfile } from "@/lib/performance";
 
 export default function GlobalCursorGlow() {
   const glowRef = useRef<HTMLDivElement>(null);
+  const [isEnabled, setIsEnabled] = useState(true);
 
   useEffect(() => {
-    if (!glowRef.current) return;
-    
-    // Smooth, slow following effect using GSAP quickTo
-    const xTo = gsap.quickTo(glowRef.current, "x", { duration: 3, ease: "power3.out" });
-    const yTo = gsap.quickTo(glowRef.current, "y", { duration: 3, ease: "power3.out" });
+    const profile = getPerformanceProfile();
+    if (!glowRef.current || profile.isTouch || profile.isLowEnd || profile.prefersReducedMotion) {
+      setIsEnabled(false);
+      return;
+    }
 
-    const handleMouseMove = (e: MouseEvent) => {
-      // Offset by half the width/height to center the blob on the cursor (800px width = 400px offset)
-      xTo(e.clientX - 400); 
-      yTo(e.clientY - 400);
-    };
+    let isActive = true;
+    let cleanup: (() => void) | undefined;
 
-    window.addEventListener("mousemove", handleMouseMove);
-    
+    void (async () => {
+      const { gsap } = await import("gsap");
+      if (!isActive || !glowRef.current) return;
+
+      const xTo = gsap.quickTo(glowRef.current, "x", { duration: 3, ease: "power3.out" });
+      const yTo = gsap.quickTo(glowRef.current, "y", { duration: 3, ease: "power3.out" });
+
+      const handleMouseMove = (e: MouseEvent) => {
+        xTo(e.clientX - 400);
+        yTo(e.clientY - 400);
+      };
+
+      window.addEventListener("mousemove", handleMouseMove, { passive: true });
+      cleanup = () => window.removeEventListener("mousemove", handleMouseMove);
+    })();
+
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      isActive = false;
+      cleanup?.();
     };
   }, []);
+
+  if (!isEnabled) return null;
 
   return (
     <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden mix-blend-multiply">

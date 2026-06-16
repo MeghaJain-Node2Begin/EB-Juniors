@@ -1,7 +1,7 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import TopNavbar from "@/components/hero/TopNavbar";
-import Footer from "@/components/footer/Footer";
+import DeferredFooter from "@/components/layout/DeferredFooter";
 import { fetchBlogById } from "@/lib/api";
 import BlogDetailsClient from '@/components/blog/BlogDetailsClient';
 
@@ -22,7 +22,7 @@ export default async function BlogDetailsPage({ params }: { params: Promise<{ sl
       <div className="flex-grow">
         <BlogDetailsClient blog={blog} />
       </div>
-      <Footer />
+      <DeferredFooter />
     </main>
   );
 }

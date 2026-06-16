@@ -1,30 +1,53 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Star } from 'lucide-react';
 import Image from 'next/image';
 import TopNavbar from './TopNavbar';
 import FloatingTechIcons from './FloatingTechIcons';
+import { API_BASE_URL } from '@/lib/api';
+import { runWhenIdle } from '@/lib/performance';
+
+interface HeroTestimonial {
+  testimonial_id: number;
+  student_name: string;
+  image?: string;
+  approved: number | boolean;
+}
 
 export default function HeroSection() {
   const { scrollY } = useScroll();
-  const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [testimonials, setTestimonials] = useState<HeroTestimonial[]>([]);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const fetchTestimonials = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/testimonials/read.php');
+        const response = await fetch(`${API_BASE_URL}/testimonials/read.php`, {
+          cache: "no-store",
+          signal: controller.signal,
+        });
         const data = await response.json();
         if (data.success && data.data) {
-          const approved = data.data.filter((t: any) => t.approved).slice(0, 4);
+          const approved = data.data
+            .filter((t: HeroTestimonial) => Boolean(t.approved))
+            .slice(0, 4);
           setTestimonials(approved);
         }
       } catch (error) {
+        if (controller.signal.aborted) return;
         console.error("Failed to fetch testimonials", error);
       }
     };
-    fetchTestimonials();
+
+    const cancelIdleFetch = runWhenIdle(fetchTestimonials, 1000);
+
+    return () => {
+      controller.abort();
+      cancelIdleFetch();
+    };
   }, []);
   
   // Parallax and scroll transitions
@@ -101,7 +124,14 @@ export default function HeroSection() {
                   testimonials.map((t) => (
                     <div key={t.testimonial_id} className="w-10 h-10 rounded-full border-2 border-[#FDFBF7] overflow-hidden bg-zinc-200 flex items-center justify-center font-bold text-zinc-600 text-sm" title={t.student_name}>
                       {t.image ? (
-                        <Image src={t.image.startsWith('http') ? t.image : `/uploads/testimonials/${t.image}`} alt={t.student_name} width={40} height={40} className="w-full h-full object-cover" />
+                        <Image
+                          src={t.image.startsWith('http') ? t.image : `/uploads/testimonials/${t.image}`}
+                          alt={t.student_name}
+                          width={40}
+                          height={40}
+                          sizes="40px"
+                          className="w-full h-full object-cover"
+                        />
                       ) : (
                         t.student_name.substring(0, 1).toUpperCase()
                       )}
@@ -110,7 +140,14 @@ export default function HeroSection() {
                 ) : (
                   [1, 2, 3, 4].map((i) => (
                     <div key={i} className="w-10 h-10 rounded-full border-2 border-[#FDFBF7] overflow-hidden bg-zinc-200">
-                      <Image src={`https://i.pravatar.cc/100?img=${i + 10}`} alt="Student" width={40} height={40} />
+                      <Image
+                        src={`https://i.pravatar.cc/100?img=${i + 10}`}
+                        alt="Student"
+                        width={40}
+                        height={40}
+                        sizes="40px"
+                        loading="lazy"
+                      />
                     </div>
                   ))
                 )}
@@ -157,6 +194,7 @@ export default function HeroSection() {
                     alt="Floating Laptop Dashboard"
                     fill
                     className="object-contain"
+                    sizes="(min-width: 1024px) 500px, 400px"
                     priority
                   />
                 </motion.div>
@@ -204,6 +242,7 @@ export default function HeroSection() {
                 alt="Hand reaching up"
                 fill
                 className="object-contain object-bottom"
+                sizes="(min-width: 1024px) 600px, 400px"
                 priority
               />
             </motion.div>

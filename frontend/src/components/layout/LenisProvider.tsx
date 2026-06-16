@@ -1,38 +1,57 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import Lenis from "@studio-freight/lenis";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect } from "react";
+import type { ReactNode } from "react";
+import { getPerformanceProfile } from "@/lib/performance";
 
-export default function LenisProvider({ children }: { children: React.ReactNode }) {
-  const lenisRef = useRef<Lenis | null>(null);
-
+export default function LenisProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    const profile = getPerformanceProfile();
+    if (profile.isLowEnd || profile.isMobile || profile.prefersReducedMotion || profile.saveData) {
+      return;
+    }
 
-    const lenis = new Lenis({
-      lerp: 0.07, // Controls the smoothness (lower is smoother, higher is more responsive)
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
-      orientation: "vertical",
-      gestureOrientation: "vertical",
-    });
-    lenisRef.current = lenis;
+    let isActive = true;
+    let cleanup: (() => void) | undefined;
 
-    lenis.on("scroll", ScrollTrigger.update);
+    void (async () => {
+      const [{ default: Lenis }, { gsap }, { ScrollTrigger }] = await Promise.all([
+        import("@studio-freight/lenis"),
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+      ]);
 
-    const updateLenis = (time: number) => {
-      lenis.raf(time * 1000);
-    };
+      if (!isActive) return;
 
-    gsap.ticker.add(updateLenis);
-    gsap.ticker.lagSmoothing(0);
+      gsap.registerPlugin(ScrollTrigger);
+
+      const lenis = new Lenis({
+        lerp: 0.07,
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        touchMultiplier: 2,
+        orientation: "vertical",
+        gestureOrientation: "vertical",
+      });
+
+      lenis.on("scroll", ScrollTrigger.update);
+
+      const updateLenis = (time: number) => {
+        lenis.raf(time * 1000);
+      };
+
+      gsap.ticker.add(updateLenis);
+      gsap.ticker.lagSmoothing(0);
+
+      cleanup = () => {
+        gsap.ticker.remove(updateLenis);
+        lenis.destroy();
+      };
+    })();
 
     return () => {
-      gsap.ticker.remove(updateLenis);
-      lenis.destroy();
+      isActive = false;
+      cleanup?.();
     };
   }, []);
 

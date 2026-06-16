@@ -1,5 +1,5 @@
 import TopNavbar from "@/components/hero/TopNavbar";
-import Footer from "@/components/footer/Footer";
+import DeferredFooter from "@/components/layout/DeferredFooter";
 import TestimonialsContent from "@/components/testimonials/TestimonialsContent";
 import { fetchTestimonials } from "@/lib/api";
 
@@ -20,7 +20,7 @@ export default async function TestimonialsPage() {
     <main className="min-h-screen bg-[#FDFBF7] flex flex-col font-sans overflow-x-hidden">
       <TopNavbar />
       <TestimonialsContent testimonials={approvedTestimonials} />
-      <Footer />
+      <DeferredFooter />
     </main>
   );
 }

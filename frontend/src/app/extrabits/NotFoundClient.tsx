@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Home, BookOpen, Monitor, Keyboard, Lock, Eye, EyeOff, ShieldCheck, Loader2, ArrowRight, X } from 'lucide-react';
 import TopNavbar from '@/components/hero/TopNavbar';
-import Footer from '@/components/footer/Footer';
+import DeferredFooter from '@/components/layout/DeferredFooter';
 import { useRouter } from 'next/navigation';
 import { adminLogin } from '@/lib/api';
 
@@ -96,7 +96,7 @@ export default function NotFoundClient() {
           </div>
         </div>
 
-        <Footer />
+        <DeferredFooter />
       </main>
 
       {/* Login Modal */}

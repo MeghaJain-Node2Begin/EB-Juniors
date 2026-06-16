@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Poppins, Inter, Playfair_Display, DM_Sans } from "next/font/google";
+import { Poppins, Inter, Playfair_Display, DM_Sans, Outfit } from "next/font/google";
 import LenisProvider from "@/components/layout/LenisProvider";
 import NoiseOverlay from "@/components/layout/NoiseOverlay";
+import PerformanceHints from "@/components/layout/PerformanceHints";
 import { LocalBusinessSchema, WebSiteSchema, BUSINESS } from "@/components/seo/JsonLd";
 import "./globals.css";
 
@@ -9,24 +10,35 @@ const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
+const outfit = Outfit({
+  variable: "--font-outfit",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const viewport = {
@@ -110,13 +122,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${inter.variable} ${playfair.variable} ${dmSans.variable} antialiased`}
+      className={`${poppins.variable} ${inter.variable} ${playfair.variable} ${dmSans.variable} ${outfit.variable} antialiased`}
     >
       <head>
         <LocalBusinessSchema />
         <WebSiteSchema />
       </head>
       <body className="min-h-screen bg-[#050c18] text-text-dark font-sans overflow-x-hidden">
+        <PerformanceHints />
         <LenisProvider>
           <NoiseOverlay />
           {children}

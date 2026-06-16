@@ -4,18 +4,27 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Network, Code2, Cloud, Bot, Cpu } from 'lucide-react';
 
-export default function FloatingTechIcons() {
-  const icons = [
-    { id: 1, Icon: Network, className: "text-green-500", top: "14%", left: "20%", delay: 0.1 },
-    { id: 2, Icon: Code2, className: "text-emerald-600", top: "18%", right: "18%", delay: 0.2 },
-    { id: 3, Icon: Cloud, className: "text-teal-400", bottom: "28%", left: "18%", delay: 0.3 },
-    { id: 4, Icon: Bot, className: "text-green-600", bottom: "18%", right: "22%", delay: 0.4 },
-    { id: 5, Icon: Cpu, className: "text-emerald-400", top: "45%", left: "12%", delay: 0.5 },
-  ];
+const icons = [
+  { id: 1, Icon: Network, className: "text-green-500", top: "14%", left: "20%" },
+  { id: 2, Icon: Code2, className: "text-emerald-600", top: "18%", right: "18%" },
+  { id: 3, Icon: Cloud, className: "text-teal-400", bottom: "28%", left: "18%" },
+  { id: 4, Icon: Bot, className: "text-green-600", bottom: "18%", right: "22%" },
+  { id: 5, Icon: Cpu, className: "text-emerald-400", top: "45%", left: "12%" },
+];
+
+const particles = Array.from({ length: 15 }, (_, i) => ({
+  id: `particle-${i}`,
+  duration: 3 + (i % 4),
+  delay: (i * 0.3) % 2,
+  x: (i * 13) % 40 - 20,
+  left: `${10 + (i * 17) % 80}%`,
+}));
+
+function FloatingTechIcons() {
 
   return (
     <div className="absolute inset-0 pointer-events-none z-10">
-      {icons.map(({ id, Icon, className, top, bottom, left, right, delay }, index) => (
+      {icons.map(({ id, Icon, className, top, bottom, left, right }, index) => (
         <motion.div
           key={id}
           initial={{ opacity: 0, scale: 0.8 }}
@@ -45,25 +54,25 @@ export default function FloatingTechIcons() {
       ))}
       
       {/* Floating data particles */}
-      {Array.from({ length: 15 }).map((_, i) => (
+      {particles.map((particle) => (
         <motion.div
-          key={`particle-${i}`}
+          key={particle.id}
           initial={{ opacity: 0 }}
           animate={{ 
             opacity: [0, 0.5, 0],
             y: [-20, -100],
-            x: (i * 13) % 40 - 20 // deterministic offset
+            x: particle.x
           }}
           transition={{
-            duration: 3 + (i % 4), // deterministic duration
+            duration: particle.duration,
             repeat: Infinity,
-            delay: (i * 0.3) % 2, // deterministic delay
+            delay: particle.delay,
             ease: "linear"
           }}
           style={{
             position: 'absolute',
             bottom: '10%',
-            left: `${10 + (i * 17) % 80}%`, // deterministic left position
+            left: particle.left,
           }}
           className="w-1.5 h-1.5 rounded-full bg-green-400/40 blur-[1px]"
         />
@@ -71,3 +80,5 @@ export default function FloatingTechIcons() {
     </div>
   );
 }
+
+export default React.memo(FloatingTechIcons);

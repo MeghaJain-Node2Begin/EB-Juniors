@@ -4,7 +4,6 @@ import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { motion } from "framer-motion";
 import { ArrowRight, Zap, Heart, Star, Monitor } from "lucide-react";
 import Image from "next/image";
 
@@ -135,7 +134,8 @@ export default function WhyExtrabits() {
       }
 
       return () => {
-        ScrollTrigger.getAll().forEach((t) => t.kill());
+        tl.scrollTrigger?.kill();
+        tl.kill();
       };
     },
     { scope: sectionRef, dependencies: [] }
@@ -187,7 +187,7 @@ export default function WhyExtrabits() {
             className="text-zinc-500 text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto leading-relaxed px-4 text-center text-wrap whitespace-normal" 
             style={{ fontFamily: "var(--font-dm-sans)" }}
           >
-            We didn't build another coaching centre. We built a premium digital learning environment where every student thrives and learns to build the future.
+            We didn&apos;t build another coaching centre. We built a premium digital learning environment where every student thrives and learns to build the future.
           </p>
         </div>
 

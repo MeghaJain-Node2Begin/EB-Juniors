@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import AboutHero from "@/components/about/AboutHero";
 import MissionVision from "@/components/about/MissionVision";
-import Footer from "@/components/footer/Footer";
+import DeferredFooter from "@/components/layout/DeferredFooter";
 import TopNavbar from "@/components/hero/TopNavbar";
 
 export const metadata: Metadata = {
@@ -19,7 +19,7 @@ export default function AboutPage() {
       <TopNavbar />
       <AboutHero />
       <MissionVision />
-      <Footer />
+      <DeferredFooter />
     </main>
   );
 }

@@ -1,6 +1,6 @@
 import TopNavbar from "@/components/hero/TopNavbar";
 import CoursesContent from "@/components/courses/CoursesContent";
-import Footer from "@/components/footer/Footer";
+import DeferredFooter from "@/components/layout/DeferredFooter";
 import { fetchCourses } from "@/lib/api";
 
 export const metadata = {
@@ -17,7 +17,7 @@ export default async function CoursesPage() {
     <main className="min-h-screen bg-[#FDFBF7] flex flex-col font-sans overflow-x-hidden">
       <TopNavbar />
       <CoursesContent courses={courses} />
-      <Footer />
+      <DeferredFooter />
     </main>
   );
 }

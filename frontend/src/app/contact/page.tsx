@@ -4,7 +4,7 @@ import ContactHero from "@/components/contact/ContactHero";
 import ContactSection from "@/components/contact/ContactSection";
 import ContactMap from "@/components/contact/ContactMap";
 import ContactFaq from "@/components/contact/ContactFaq";
-import Footer from "@/components/footer/Footer";
+import DeferredFooter from "@/components/layout/DeferredFooter";
 import TopNavbar from "@/components/hero/TopNavbar";
 
 export const metadata: Metadata = {
@@ -24,7 +24,7 @@ export default function ContactPage() {
       <ContactSection />
       <ContactMap />
       <ContactFaq />
-      <Footer />
+      <DeferredFooter />
     </main>
   );
 }

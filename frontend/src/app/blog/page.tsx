@@ -1,5 +1,5 @@
 import TopNavbar from "@/components/hero/TopNavbar";
-import Footer from "@/components/footer/Footer";
+import DeferredFooter from "@/components/layout/DeferredFooter";
 import BlogContent from "@/components/blog/BlogContent";
 import { fetchBlogs } from "@/lib/api";
 
@@ -17,7 +17,7 @@ export default async function BlogPage() {
     <main className="min-h-screen bg-[#FDFBF7] flex flex-col font-sans overflow-x-hidden">
       <TopNavbar />
       <BlogContent blogs={blogs} />
-      <Footer />
+      <DeferredFooter />
     </main>
   );
 }

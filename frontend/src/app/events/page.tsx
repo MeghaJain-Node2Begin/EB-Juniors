@@ -1,5 +1,5 @@
 import TopNavbar from "@/components/hero/TopNavbar";
-import Footer from "@/components/footer/Footer";
+import DeferredFooter from "@/components/layout/DeferredFooter";
 import EventsContent from "@/components/events/EventsContent";
 import { fetchEvents } from "@/lib/api";
 
@@ -17,7 +17,7 @@ export default async function EventsPage() {
     <main className="min-h-screen bg-[#FDFBF7] flex flex-col font-sans overflow-x-hidden">
       <TopNavbar />
       <EventsContent events={events} />
-      <Footer />
+      <DeferredFooter />
     </main>
   );
 }

@@ -1,36 +1,49 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import gsap from "gsap";
+import React, { useEffect, useRef, useState } from "react";
+import { getPerformanceProfile } from "@/lib/performance";
 
 export default function ChromaSpotlight() {
   const spotlightRef = useRef<HTMLDivElement>(null);
+  const [isEnabled, setIsEnabled] = useState(true);
 
   useEffect(() => {
-    if (!spotlightRef.current) return;
-    
-    // GSAP quickTo for highly optimized cursor tracking
-    const xTo = gsap.quickTo(spotlightRef.current, "x", { duration: 0.6, ease: "power3.out" });
-    const yTo = gsap.quickTo(spotlightRef.current, "y", { duration: 0.6, ease: "power3.out" });
+    const profile = getPerformanceProfile();
+    if (!spotlightRef.current || profile.isTouch || profile.isLowEnd || profile.prefersReducedMotion) {
+      setIsEnabled(false);
+      return;
+    }
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const parent = spotlightRef.current?.parentElement;
-      if (parent) {
+    let isActive = true;
+    let cleanup: (() => void) | undefined;
+
+    void (async () => {
+      const { gsap } = await import("gsap");
+      if (!isActive || !spotlightRef.current) return;
+
+      const xTo = gsap.quickTo(spotlightRef.current, "x", { duration: 0.6, ease: "power3.out" });
+      const yTo = gsap.quickTo(spotlightRef.current, "y", { duration: 0.6, ease: "power3.out" });
+
+      const handleMouseMove = (e: MouseEvent) => {
+        const parent = spotlightRef.current?.parentElement;
+        if (!parent) return;
+
         const rect = parent.getBoundingClientRect();
-        
-        // Calculate position relative to the section's bounding box
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        // Center the 800x800 spotlight perfectly on the cursor
-        xTo(x - 400); 
-        yTo(y - 400);
-      }
-    };
+        xTo(e.clientX - rect.left - 400);
+        yTo(e.clientY - rect.top - 400);
+      };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mousemove", handleMouseMove, { passive: true });
+      cleanup = () => window.removeEventListener("mousemove", handleMouseMove);
+    })();
+
+    return () => {
+      isActive = false;
+      cleanup?.();
+    };
   }, []);
+
+  if (!isEnabled) return null;
 
   return (
     <div

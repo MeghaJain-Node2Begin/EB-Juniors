@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowLeft, CheckCircle2, Clock, MapPin, GraduationCap, ArrowRight, ShieldCheck, Calendar, IndianRupee } from 'lucide-react';
 import TopNavbar from '@/components/hero/TopNavbar';
-import Footer from '@/components/footer/Footer';
+import DeferredFooter from '@/components/layout/DeferredFooter';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 
 interface ClassData {
@@ -67,7 +67,7 @@ export default function ClassDetailsPage() {
         <div className="flex-1 flex items-center justify-center pt-32 pb-20">
           <div className="w-16 h-16 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin"></div>
         </div>
-        <Footer />
+        <DeferredFooter />
       </main>
     );
   }
@@ -238,7 +238,7 @@ export default function ClassDetailsPage() {
         </div>
       </div>
 
-      <Footer />
+      <DeferredFooter />
     </main>
   );
 }

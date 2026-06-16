@@ -18,19 +18,41 @@ const NAV_LINKS = [
   { label: 'Testimonials', href: '/testimonials' }
 ];
 
+interface StudentUser {
+  full_name?: string;
+  email?: string;
+  profile_image?: string;
+}
+
+function readStoredUser(): StudentUser | null {
+  if (typeof window === "undefined") return null;
+
+  try {
+    const storedUser = window.localStorage.getItem('student_user');
+    return storedUser ? JSON.parse(storedUser) as StudentUser : null;
+  } catch {
+    return null;
+  }
+}
+
 export default function TopNavbar() {
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<StudentUser | null>(() => readStoredUser());
   
-  const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hasHiddenOnce = useRef(false);
+  const scrolledRef = useRef(false);
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    setIsScrolled(latest > 50);
+    const nextIsScrolled = latest > 50;
+    if (scrolledRef.current !== nextIsScrolled) {
+      scrolledRef.current = nextIsScrolled;
+      setIsScrolled(nextIsScrolled);
+    }
   });
 
   useEffect(() => {
@@ -38,7 +60,7 @@ export default function TopNavbar() {
 
     if (isScrolled) {
       if (isHovered) {
-        setIsHidden(false);
+        hideTimeoutRef.current = setTimeout(() => setIsHidden(false), 0);
       } else {
         // Hide after 1s on first scroll, but quickly (200ms) on subsequent hover exits
         const delay = hasHiddenOnce.current ? 200 : 1000;
@@ -48,8 +70,8 @@ export default function TopNavbar() {
         }, delay);
       }
     } else {
-      setIsHidden(false);
       hasHiddenOnce.current = false;
+      hideTimeoutRef.current = setTimeout(() => setIsHidden(false), 0);
     }
 
     return () => {
@@ -58,16 +80,8 @@ export default function TopNavbar() {
   }, [isHovered, isScrolled]);
 
   useEffect(() => {
-    // Check initial auth state
-    const storedUser = localStorage.getItem('student_user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-
-    // Listen for auth changes
     const handleAuthChange = () => {
-      const updatedUser = localStorage.getItem('student_user');
-      setUser(updatedUser ? JSON.parse(updatedUser) : null);
+      setUser(readStoredUser());
     };
 
     window.addEventListener('auth-change', handleAuthChange);
